@@ -46,4 +46,7 @@ if __name__ == '__main__':
 
     g0_function = linsolve(equations, g_all).args[0][0]
     # Заменил I на Y, чтобы вольфрам не считал это мнимой единицей
-    print(get_wolfram_link("series " + str(g0_function).replace('**', '^').replace('I', 'Y')))
+    g0_function_wolfram = str(g0_function).replace('**', '^').replace('I', 'Y')
+
+    print(get_wolfram_link("series " + g0_function_wolfram))
+    print(get_wolfram_link("series D[%s, Y]" % g0_function_wolfram))
