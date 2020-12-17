@@ -3,8 +3,9 @@ import convcode as cc
 from sympy import *
 import urllib.parse
 
+
 MEMORY = np.array([2])
-G = np.array([[1, 7, 7]])  # [D, D^2+D+1, D^2+D+1]
+G = np.array([[4, 6, 6]])  # [D^2, D^2+D, D^2+D]
 G1 = np.array([[1, 1, 0], [1, 1, 1]])
 G2 = np.array([[1, 0, 0, 0], [0, 0, 1, 0], [1, 1, 1, 1]])
 
@@ -45,7 +46,7 @@ if __name__ == '__main__':
     g0_function_wolfram = str(g0_function).replace('**', '^').replace('I', 'Y')
 
     print(equations)
-    # print(get_wolfram_link("series " + g0_function_wolfram))
+    print(get_wolfram_link("series " + g0_function_wolfram))
     # print(get_wolfram_link("series D[%s, Y]" % g0_function_wolfram))
     print(np.kron(G1, G2))
 
