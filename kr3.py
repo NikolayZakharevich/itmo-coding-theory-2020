@@ -4,13 +4,9 @@ from sympy import *
 import urllib.parse
 
 MEMORY = np.array([2])
-G = np.array([[5, 7]])
-
-# MEMORY = np.array([2])
-# G = np.array([[1, 3, 7]])
-
-# MEMORY = np.array([3])
-# G = np.array([[13, 11]])
+G = np.array([[1, 7, 7]])  # [D, D^2+D+1, D^2+D+1]
+G1 = np.array([[1, 1, 0], [1, 1, 1]])
+G2 = np.array([[1, 0, 0, 0], [0, 0, 1, 0], [1, 1, 1, 1]])
 
 WOLFRAM_ALPHA_URL = 'https://www.wolframalpha.com/input/?i='
 
@@ -22,7 +18,7 @@ def get_wolfram_link(input: str) -> str:
 if __name__ == '__main__':
     trellis = cc.Trellis(MEMORY, G)
     n = trellis.number_states
-    # trellis.visualize()
+    trellis.visualize()
 
     equations = []
     g_all = symbols('g0:%d' % n)
@@ -48,5 +44,10 @@ if __name__ == '__main__':
     # Заменил I на Y, чтобы вольфрам не считал это мнимой единицей
     g0_function_wolfram = str(g0_function).replace('**', '^').replace('I', 'Y')
 
-    print(get_wolfram_link("series " + g0_function_wolfram))
-    print(get_wolfram_link("series D[%s, Y]" % g0_function_wolfram))
+    print(equations)
+    # print(get_wolfram_link("series " + g0_function_wolfram))
+    # print(get_wolfram_link("series D[%s, Y]" % g0_function_wolfram))
+    print(np.kron(G1, G2))
+
+# D^2 + D
+# 0 1 1 -> 3
