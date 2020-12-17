@@ -49,6 +49,3 @@ if __name__ == '__main__':
     print(get_wolfram_link("series " + g0_function_wolfram))
     # print(get_wolfram_link("series D[%s, Y]" % g0_function_wolfram))
     print(np.kron(G1, G2))
-
-# D^2 + D
-# 0 1 1 -> 3
