@@ -6,20 +6,28 @@ from sympy import *
 import urllib.parse
 
 # 75
-MEMORY = np.array([2])
-G = np.array([[4, 6, 6]])  # [D^2, D^2+D, D^2+D]
-N = '5D^6I^2+D^5I'
-M = '5D^5I+3D^3I'
-G1 = np.array([[1, 0, 1], [0, 1, 1]])
-G2 = np.array([[1, 0, 0, 0], [1, 0, 1, 0], [1, 1, 0, 0]])
+# MEMORY = np.array([2])
+# G = np.array([[4, 6, 6]])  # [D^2, D^2+D, D^2+D]
+# N = '5D^6I^2+D^5I'
+# M = '5D^5I+3D^3I'
+# G1 = np.array([[1, 0, 1], [0, 1, 1]])
+# G2 = np.array([[1, 0, 0, 0], [1, 0, 1, 0], [1, 1, 0, 0]])
 
 # 67
+MEMORY = np.array([2])
+G = np.array([[2, 7, 7]])  # [D, D^2+D+1, D^2+D+1]
+N = 'D^7I^2+D^5I'
+M = '3D^5I+3D^2I'
+G1 = np.array([[1, 1, 0], [1, 1, 1]])
+G2 = np.array([[1, 0, 0, 0], [0, 0, 1, 0], [1, 1, 1, 1]])
+
+# 60
 # MEMORY = np.array([2])
-# G = np.array([[2, 7, 7]])  # [D, D^2+D+1, D^2+D+1]
-# N = 'D^7I^2+D^5I'
-# M = '3D^5I+3D^2I'
-# G1 = np.array([[1, 1, 0], [1, 1, 1]])
-# G2 = np.array([[1, 0, 0, 0], [0, 0, 1, 0], [1, 1, 1, 1]])
+# G = np.array([[2, 7, 6]])  # [D, D^2+D+1, D^2+D]
+# N = '3D^7I^2+D^6I'
+# M = '4D^6I+2D^3I'
+# G1 = np.array([[1, 1, 1], [1, 0, 1]])
+# G2 = np.array([[1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0]])
 
 WOLFRAM_ALPHA_URL = 'https://www.wolframalpha.com/input/?i='
 
@@ -45,8 +53,9 @@ def print_formatted(A, B):
     print()
 
 
-def get_wolfram_link(input: str, I_replacer='I') -> str:
-    return WOLFRAM_ALPHA_URL + urllib.parse.quote_plus(input.replace('I', I_replacer))
+def get_wolfram_link(input: str) -> str:
+    # Заменил I на Y, чтобы вольфрам не считал это мнимой единицей
+    return WOLFRAM_ALPHA_URL + urllib.parse.quote_plus(input.replace('I', 'Y'))
 
 
 if __name__ == '__main__':
@@ -87,11 +96,10 @@ if __name__ == '__main__':
     print_formatted(A, B)
     g0_function = linsolve(equations, g_all).args[0][0]
     g0_function_wolfram = str(g0_function).replace('**', '^')
-    print('dfree:', 'n(D):', 'm(D):', get_wolfram_link('series ' + g0_function_wolfram, '1'), sep='\n')
+    print('dfree:', 'n(D):', 'm(D):', get_wolfram_link('series ' + g0_function_wolfram), sep='\n')
 
-    print('dC', get_wolfram_link('series (%s) / (1 - (%s))' % (N, M), '*1'), sep='\n')
-    # Заменил I на Y, чтобы вольфрам не считал это мнимой единицей
-    print('dI', get_wolfram_link('series D[(%s) / (1 - (%s)), Y]' % (N, M), 'Y'), sep='\n')
+    print('dC', get_wolfram_link('series (%s) / (1 - (%s))' % (N, M)), sep='\n')
+    print('dI', get_wolfram_link('series D[(%s) / (1 - (%s)), Y]' % (N, M)), sep='\n')
 
     print('G:')
     np.savetxt(sys.stdout.buffer, np.kron(G1, G2), fmt='%s', delimiter='')
